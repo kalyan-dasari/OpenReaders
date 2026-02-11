@@ -1,0 +1,25 @@
+{
+  "name": "OpenReaders - Where Stories Breathe",
+  "short_name": "OpenReaders",
+  "description": "Discover and read compelling stories and books on OpenReaders",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#ff6b35",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

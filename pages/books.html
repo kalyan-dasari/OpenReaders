@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore and buy books on OpenReaders - Read samples and full books with Razorpay payment">
+    <meta name="keywords" content="books, e-books, story books, read online">
+    
+    <title>Books - OpenReaders</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/favicon.png?v=2">
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png?v=2" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/favicon.png?v=2">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#ff6b35">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- PDF.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar sticky-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html" class="logo">
+                    <img src="../assets/images/logo.png" alt="OpenReaders" class="logo-img">
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="incidents.html" class="nav-link">Incidents</a>
+                <a href="books.html" class="nav-link active">Books</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header" style="padding-top: 100px; padding-bottom: 60px;">
+        <div class="container">
+            <h1 class="section-title" style="margin-bottom: 20px;">📚 Our Books</h1>
+            <p class="section-subtitle">Handcrafted stories waiting to be discovered. Read the first two chapters free, then unlock the full narrative.</p>
+        </div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="filters-section" style="padding: 40px 0; background: var(--secondary-dark); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="filter-btn active" data-filter="all" style="padding: 10px 20px; background: var(--accent-primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">All</button>
+                <button class="filter-btn" data-filter="fiction" style="padding: 10px 20px; background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary); border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Fiction</button>
+                <button class="filter-btn" data-filter="contemporary" style="padding: 10px 20px; background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary); border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Contemporary</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Books Grid -->
+    <section style="padding: 80px 0;">
+        <div class="container">
+            <div id="booksGridMain" class="books-grid">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section style="padding: 60px 0; background: var(--secondary-dark);">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom: 40px;">How It Works</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div style="background: var(--tertiary-dark); padding: 30px; border-radius: 12px; border-left: 4px solid var(--accent-primary);">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 15px;">1. Read Sample</h3>
+                    <p style="color: var(--text-secondary);">Every book includes the first 2 chapters completely free. Read at your own pace and decide if you want more.</p>
+                </div>
+                
+                <div style="background: var(--tertiary-dark); padding: 30px; border-radius: 12px; border-left: 4px solid var(--accent-secondary);">
+                    <h3 style="color: var(--accent-secondary); margin-bottom: 15px;">2. Easy Payment</h3>
+                    <p style="color: var(--text-secondary);">Secure payment with Razorpay. Multiple payment options available including cards, wallets, and UPI.</p>
+                </div>
+                
+                <div style="background: var(--tertiary-dark); padding: 30px; border-radius: 12px; border-left: 4px solid var(--accent-tertiary);">
+                    <h3 style="color: var(--accent-tertiary); margin-bottom: 15px;">3. Unlock & Read</h3>
+                    <p style="color: var(--text-secondary);">After purchase, instantly access the full book. Read it anytime, anywhere on our platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>OpenReaders</h3>
+                    <p>A platform where stories breathe and readers discover magic in words.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="incidents.html">Incidents</a></li>
+                        <li><a href="books.html">Books</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow</h4>
+                    <ul class="social-links">
+                        <li><a href="#" target="_blank">Twitter</a></li>
+                        <li><a href="#" target="_blank">Instagram</a></li>
+                        <li><a href="#" target="_blank">Facebook</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 OpenReaders. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Story Modal (for reading) -->
+    <div class="modal" id="storyModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="story-modal-body" id="storyModalBody">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Modal (Books only) -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content pdf-modal-content">
+            <span class="modal-close" id="pdfModalClose">&times;</span>
+            <div class="pdf-modal-body">
+                <div class="pdf-meta">
+                    <h2 id="pdfModalTitle"></h2>
+                    <div id="pdfModalActions"></div>
+                </div>
+                <div id="pdfViewerContainer" class="pdf-viewer-container">
+                    <div id="pdfViewer" class="pdf-viewer"></div>
+                </div>
+                <div id="pdfUnlockOverlay" class="pdf-unlock-overlay" style="display:none;">
+                    <div class="pdf-unlock-inner">
+                        <p>🔒 Paid content ahead. Unlock to continue reading.</p>
+                        <button class="cta-button" id="pdfUnlockBtn">Unlock Full Book</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/content-manager.js"></script>
+    <script src="../js/main.js"></script>
+    
+    <script>
+        const booksGridMain = document.getElementById('booksGridMain');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        let allBooks = [];
+        
+        async function initBooksPage() {
+            allBooks = await contentManager.getBooks();
+            renderBooksGrid(allBooks);
+        }
+        
+        function renderBooksGrid(books) {
+            booksGridMain.innerHTML = books.map(book => buildBookCard(book)).join('');
+            
+            // Add event listeners for book buttons
+            document.querySelectorAll('.btn-preview').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const bookId = btn.dataset.bookId;
+                    openBookPDF(bookId);
+                });
+            });
+            
+            document.querySelectorAll('.btn-unlock').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const bookId = btn.dataset.bookId;
+                    initiatePurchase(bookId);
+                });
+            });
+            
+            // Observe for animations
+            observeElements('.book-card');
+        }
+        
+        // Filter functionality
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.style.background = 'transparent';
+                    b.style.color = 'var(--accent-primary)';
+                    b.style.borderColor = 'var(--accent-primary)';
+                });
+                
+                btn.style.background = 'var(--accent-primary)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-primary)';
+                
+                const filter = btn.dataset.filter;
+                const filtered = filter === 'all' 
+                    ? allBooks 
+                    : allBooks.filter(book => book.category.toLowerCase().includes(filter));
+                
+                renderBooksGrid(filtered);
+            });
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', initBooksPage);
+    </script>
+</body>
+</html>

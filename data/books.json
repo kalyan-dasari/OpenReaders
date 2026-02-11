@@ -1,0 +1,100 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Before We Say Goodbye",
+      "author": "OpenReaders",
+      "cover": "assets/images/beforewesaygoodbye.png",
+      "price": 299,
+      "currency": "INR",
+      "description": "A collection of interconnected stories that explore the depths of human emotion. From love and loss to hope and redemption, these narratives will touch your soul.",
+      "shortDesc": "A nostalgic tale of school corridors, unspoken feelings, and the goodbyes that never happened.",
+      "category": "Fiction",
+      "pdfUrl": "assets/pdfs/Before_We_Say_GoodBye_Full_Book.pdf",
+      "freePages": 10,
+      "totalPages": 80,
+      "externalLinks": {
+        "amazon": "https://amazon.in",
+        "flipkart": "https://flipkart.com",
+        "goodreads": "https://goodreads.com"
+      },
+      "views": 567,
+      "likes": 89,
+      "comments": [],
+      "rating": 4.5,
+      "reviews": 23
+    },
+    {
+      "id": 2,
+      "title": "The Last Trip of the Five Friends",
+      "author": "OpenReaders",
+      "cover": "assets/images/LastTrip.png",
+      "price": 299,
+      "currency": "INR",
+      "description": "A collection of interconnected stories that explore the depths of human emotion. From love and loss to hope and redemption, these narratives will touch your soul.",
+      "shortDesc": "Not just a tale of a journey; it is an emotional reflection on how people grow",
+      "category": "Fiction",
+      "pdfUrl": "assets/pdfs/The_Last_Trip_of_Five_Friendss.pdf",
+      "freePages": 10,
+      "totalPages": 150,
+      "externalLinks": {
+        "amazon": "https://amazon.in",
+        "flipkart": "https://flipkart.com",
+        "goodreads": "https://goodreads.com"
+      },
+      "views": 271,
+      "likes": 45,
+      "comments": [],
+      "rating": 3.9,
+      "reviews": 17
+    },
+    {
+      "id": 3,
+      "title": "Echoes of the Heart",
+      "author": "OpenReaders",
+      "cover": "assets/images/beforewe.jpg",
+      "price": 299,
+      "currency": "INR",
+      "description": "A collection of interconnected stories that explore the depths of human emotion. From love and loss to hope and redemption, these narratives will touch your soul.",
+      "shortDesc": "A poetic journey through love, loss, and rediscovery",
+      "category": "Contemporary",
+      "pdfUrl": "assets/pdfs/echoes-of-the-heart.pdf",
+      "freePages": 10,
+      "totalPages": 120,
+      "externalLinks": {
+        "amazon": "https://amazon.in",
+        "flipkart": "https://flipkart.com",
+        "goodreads": "https://goodreads.com"
+      },
+      "views": 67,
+      "likes": 19,
+      "comments": [],
+      "rating": 4.1,
+      "reviews": 2
+    },
+    {
+      "id": 4,
+      "title": "Neon Nights",
+      "author": "OpenReaders",
+      "cover": "assets/images/before.png",
+      "price": 249,
+      "currency": "INR",
+      "description": "A contemporary tale of urban isolation and unexpected connections. Set against the backdrop of neon-lit cities, this novel weaves together the lives of strangers whose paths collide in meaningful ways.",
+      "shortDesc": "Where city lights hide infinite stories",
+      "category": "Contemporary Fiction",
+      "pdfUrl": "assets/pdfs/neon-nights.pdf",
+      "freePages": 10,
+      "totalPages": 200,
+      "externalLinks": {
+        "amazon": "https://amazon.in",
+        "flipkart": "https://flipkart.com",
+        "goodreads": "https://goodreads.com"
+      },
+      "views": 132,
+      "likes": 16,
+      "comments": [],
+      "rating": 4.1,
+      "reviews": 18
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OpenReaders - Where Stories Breathe. Discover compelling short stories, incidents, and books by emerging writers.">
+    <meta name="keywords" content="stories, books, short stories, reading platform, indie authors">
+    <meta property="og:title" content="OpenReaders - Where Stories Breathe">
+    <meta property="og:description" content="Discover and read compelling stories and books on OpenReaders">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openreaders.com">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    
+    <title>OpenReaders - Where Stories Breathe</title>
+    <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png?v=2">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png?v=2" sizes="512x512">
+    <link rel="apple-touch-icon" href="assets/images/favicon.png?v=2">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff6b35">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar sticky-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo">
+                    <img src="assets/images/favicon.png" alt="OpenReaders" class="logo-icon-img">
+                    <span class="logo-text">OpenReaders</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/incidents.html" class="nav-link">Incidents</a>
+                <a href="pages/books.html" class="nav-link">Books</a>
+                <a href="pages/about.html" class="nav-link">About</a>
+                <a href="pages/contact.html" class="nav-link">Contact</a>
+            </div>
+            
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title fade-in">Where Stories Breathe</h1>
+            <p class="hero-subtitle fade-in-delay">Discover tales that touch the soul, words that linger in memory, and narratives that transform perspective</p>
+            <a href="pages/incidents.html" class="cta-button glow-button">Explore Stories</a>
+        </div>
+        <div class="hero-background">
+            <div class="gradient-orb gradient-orb-1"></div>
+            <div class="gradient-orb gradient-orb-2"></div>
+            <div class="gradient-orb gradient-orb-3"></div>
+        </div>
+    </section>
+
+    <!-- What's New Section -->
+    <section class="whats-new" id="whatsNew">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🔥 What's New</h2>
+                <p class="section-subtitle">Latest stories fresh from our writers</p>
+            </div>
+            
+            <div class="whats-new-grid" id="whatsNewGrid">
+                <!-- Dynamically loaded from data/incidents.json (latest stories) -->
+            </div>
+            
+            <div class="section-footer">
+                <a href="pages/incidents.html" class="view-all-link">View All Stories →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Incidents Preview Section -->
+    <section class="incidents-preview" id="incidentsPreview">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">📖 Recent Incidents</h2>
+                <p class="section-subtitle">Stories from everyday life that matter</p>
+            </div>
+            
+            <div class="incidents-grid" id="incidentsGrid">
+                <!-- Dynamically loaded from data/incidents.json -->
+            </div>
+            
+            <div class="section-footer">
+                <a href="pages/incidents.html" class="view-all-link">Explore All Incidents →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Books Preview Section -->
+    <section class="books-preview" id="booksPreview">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">📚 Featured Books</h2>
+                <p class="section-subtitle">Stories that deserve to be read completely</p>
+            </div>
+            
+            <div class="books-grid" id="booksGrid">
+                <!-- Dynamically loaded from data/books.json -->
+            </div>
+            
+            <div class="section-footer">
+                <a href="pages/books.html" class="view-all-link">Browse All Books →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Join Our Reading Community</h2>
+                <p>Get notified when new stories and books are released</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn-subscribe">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>OpenReaders</h3>
+                    <p>A platform where stories breathe and readers discover magic in words.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="pages/incidents.html">Incidents</a></li>
+                        <li><a href="pages/books.html">Books</a></li>
+                        <li><a href="pages/about.html">About</a></li>
+                        <li><a href="pages/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow</h4>
+                    <ul class="social-links">
+                        <li><a href="#" target="_blank">Twitter</a></li>
+                        <li><a href="#" target="_blank">Instagram</a></li>
+                        <li><a href="#" target="_blank">Facebook</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="pages/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="pages/terms-conditions.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 OpenReaders. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Story Modal -->
+    <div class="modal" id="storyModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="story-modal-body" id="storyModalBody">
+                <!-- Story content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/content-manager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

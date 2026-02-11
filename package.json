@@ -1,0 +1,19 @@
+{
+  "name": "openreadersc",
+  "version": "1.0.0",
+  "description": "A modern reading platform for indie authors to share stories and earn money through a freemium model. Built with vanilla JavaScript and powered by Razorpay for payments.",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "crypto": "^1.0.1",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "razorpay": "^2.9.6"
+  }
+}

@@ -356,3 +356,43 @@ if (document.readyState === 'loading') {
 } else {
     initializeApp();
 }
+// Payment Function
+async function payNow(amount) {
+  const response = await fetch("http://localhost:5000/create-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount }),
+  });
+
+  const order = await response.json();
+
+  const options = {
+    key: CONFIG.payment.razorpay.keyId,
+    amount: order.amount,
+    currency: "INR",
+    name: "OpenReaders",
+    description: "Book Purchase",
+    order_id: order.id,
+    handler: async function (response) {
+      const verifyRes = await fetch("http://localhost:5000/verify-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(response),
+      });
+
+      const result = await verifyRes.json();
+
+      if (result.success) {
+        alert("Payment Successful 🎉");
+      } else {
+        alert("Payment Verification Failed");
+      }
+    },
+    theme: {
+      color: "#6C63FF",
+    },
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}

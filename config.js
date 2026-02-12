@@ -32,7 +32,10 @@ const CONFIG = {
             enabled: true,
             currency: "INR",
             theme: "#e94560",
-            serverUrl: "http://localhost:5000" // Backend server URL
+            // Auto-detect server URL: Use current origin for production, localhost for development
+            serverUrl: (typeof window !== 'undefined' && window.location.hostname === 'localhost') 
+                ? 'http://localhost:5000'
+                : '' // Empty string uses same origin (relative paths)
         },
         testMode: false // Set to true for testing (currently using LIVE keys for real payments)
     },

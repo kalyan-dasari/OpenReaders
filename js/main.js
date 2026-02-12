@@ -358,7 +358,8 @@ if (document.readyState === 'loading') {
 }
 // Payment Function
 async function payNow(amount) {
-  const response = await fetch("http://localhost:5000/create-order", {
+  const serverUrl = CONFIG.payment?.razorpay?.serverUrl || '';
+  const response = await fetch(`${serverUrl}/api/create-order`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ amount }),
@@ -374,7 +375,7 @@ async function payNow(amount) {
     description: "Book Purchase",
     order_id: order.id,
     handler: async function (response) {
-      const verifyRes = await fetch("http://localhost:5000/verify-payment", {
+      const verifyRes = await fetch(`${serverUrl}/api/verify-payment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(response),

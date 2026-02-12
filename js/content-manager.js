@@ -608,12 +608,12 @@ async function initiatePurchase(bookId) {
         return;
     }
 
-    const serverUrl = CONFIG.payment?.razorpay?.serverUrl || 'http://localhost:5000';
+    const serverUrl = CONFIG.payment?.razorpay?.serverUrl || '';
 
     try {
         // Step 1: Create order on server
         showToast('Initializing payment...', 'info');
-        const orderResponse = await fetch(`${serverUrl}/create-order`, {
+        const orderResponse = await fetch(`${serverUrl}/api/create-order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -647,7 +647,7 @@ async function initiatePurchase(bookId) {
                 // Step 3: Verify payment on server
                 try {
                     showToast('Verifying payment...', 'info');
-                    const verifyResponse = await fetch(`${serverUrl}/verify-payment`, {
+                    const verifyResponse = await fetch(`${serverUrl}/api/verify-payment`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

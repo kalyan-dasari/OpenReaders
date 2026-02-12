@@ -12,3 +12,5 @@ yarn-error.log*
 *.tgz
 /.env.local
 secrets.json
+ADMIN_GUIDE.md
+.env.example

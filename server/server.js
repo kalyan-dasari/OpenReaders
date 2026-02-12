@@ -33,7 +33,10 @@ app.post("/create-order", async (req, res) => {
   try {
     const { amount, bookId, bookTitle } = req.body;
 
+    console.log('📥 Order request received:', { amount, bookId, bookTitle });
+
     if (!amount || amount <= 0) {
+      console.log('❌ Invalid amount:', amount);
       return res.status(400).json({ error: "Invalid amount" });
     }
 
@@ -47,12 +50,13 @@ app.post("/create-order", async (req, res) => {
       }
     };
 
-    console.log('Creating order:', options);
+    console.log('📤 Creating Razorpay order with:', options);
     const order = await razorpay.orders.create(options);
-    console.log('Order created:', order.id);
+    console.log('✅ Order created successfully:', order.id);
     res.json(order);
   } catch (err) {
-    console.error('Order creation error:', err);
+    console.error('❌ Order creation error:', err.message);
+    console.error('Full error:', err);
     res.status(500).json({ error: err.message });
   }
 });

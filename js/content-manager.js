@@ -177,8 +177,8 @@ function buildWhatsNewCard(story) {
 
 function buildBookCard(book, isHomePreview = false) {
     // Get the correct base path for asset loading
-    const basePath = contentManager.getBasePath();
-    const coverPath = basePath + book.cover;
+    // Use absolute path for Razorpay compatibility (always start with /)
+    const coverPath = '/' + book.cover;
     
     if (isHomePreview) {
         // Home page version - redirect to books page

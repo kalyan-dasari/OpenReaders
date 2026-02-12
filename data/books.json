@@ -14,7 +14,7 @@
       "freePages": 10,
       "totalPages": 80,
       "externalLinks": {
-        "amazon": "https://amazon.in",
+        "amazon": "https://amzn.in/d/01bdnfLV",
         "flipkart": "https://flipkart.com",
         "goodreads": "https://goodreads.com"
       },
@@ -38,7 +38,7 @@
       "freePages": 10,
       "totalPages": 150,
       "externalLinks": {
-        "amazon": "https://amazon.in",
+        "amazon": "https://amzn.in/d/0fZBjxtr",
         "flipkart": "https://flipkart.com",
         "goodreads": "https://goodreads.com"
       },
@@ -52,7 +52,7 @@
       "id": 3,
       "title": "Echoes of the Heart",
       "author": "OpenReaders",
-      "cover": "assets/images/beforewe.jpg",
+      "cover": "assets/images/default.png",
       "price": 59,
       "currency": "INR",
       "description": "A collection of interconnected stories that explore the depths of human emotion. From love and loss to hope and redemption, these narratives will touch your soul.",
@@ -76,7 +76,7 @@
       "id": 4,
       "title": "Neon Nights",
       "author": "OpenReaders",
-      "cover": "assets/images/before.png",
+      "cover": "assets/images/default.png",
       "price": 89,
       "currency": "INR",
       "description": "A contemporary tale of urban isolation and unexpected connections. Set against the backdrop of neon-lit cities, this novel weaves together the lives of strangers whose paths collide in meaningful ways.",

@@ -4,6 +4,8 @@
   "description": "A modern reading platform for indie authors to share stories and earn money through a freemium model. Built with vanilla JavaScript and powered by Razorpay for payments.",
   "main": "config.js",
   "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

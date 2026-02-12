@@ -28,12 +28,13 @@ const CONFIG = {
             // or `process.env.RAZORPAY_KEY_ID` when available (for build-time injection).
             keyId: (typeof window !== 'undefined' && window.__ENV && window.__ENV.RAZORPAY_KEY_ID) ||
                    (typeof process !== 'undefined' && process.env && process.env.RAZORPAY_KEY_ID) ||
-                   "YOUR_RAZORPAY_KEY_ID",
+                   "rzp_test_SF5FUt53kArMSm", // Updated to match .env test key
             enabled: true,
             currency: "INR",
-            theme: "#e94560"
+            theme: "#e94560",
+            serverUrl: "http://localhost:5000" // Backend server URL
         },
-        testMode: true // Set to false in production
+        testMode: true // Set to false in production (currently using TEST keys)
     },
 
     // Content Settings

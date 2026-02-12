@@ -171,6 +171,7 @@
 
     <!-- Scripts -->
      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="../config.js"></script>
     <script src="../js/utils.js"></script>
     <script src="../js/content-manager.js"></script>
     <script src="../js/main.js"></script>
@@ -193,7 +194,8 @@
             document.querySelectorAll('.btn-preview').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const bookId = btn.dataset.bookId;
+                    const bookId = parseInt(btn.dataset.bookId);
+                    console.log('Preview clicked - Book ID:', bookId);
                     openBookPDF(bookId);
                 });
             });
@@ -201,7 +203,8 @@
             document.querySelectorAll('.btn-unlock').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const bookId = btn.dataset.bookId;
+                    const bookId = parseInt(btn.dataset.bookId);
+                    console.log('Unlock clicked - Book ID:', bookId);
                     initiatePurchase(bookId);
                 });
             });

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Test - OpenReaders</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="config.js"></script>
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            background: var(--secondary-dark);
+            border-radius: 12px;
+        }
+        .test-button {
+            background: var(--accent-primary);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: 600;
+        }
+        .test-button:hover {
+            opacity: 0.9;
+        }
+        .console-output {
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #0f4;
+            color: #000;
+        }
+        .status.error {
+            background: #f04;
+            color: #fff;
+        }
+        .status.info {
+            background: #09f;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="color: var(--accent-primary); margin-bottom: 20px;">🧪 Razorpay Integration Test</h1>
+        
+        <div id="statusDisplay"></div>
+        
+        <h3 style="color: var(--text-primary); margin: 20px 0;">Configuration Check:</h3>
+        <div id="configCheck"></div>
+        
+        <h3 style="color: var(--text-primary); margin: 20px 0;">Server Connection:</h3>
+        <div id="serverCheck"></div>
+        
+        <h3 style="color: var(--text-primary); margin: 20px 0;">Test Payment:</h3>
+        <button class="test-button" onclick="testPayment()">🔒 Test Payment (₹10)</button>
+        <button class="test-button" onclick="testDirectRazorpay()">⚡ Test Direct Razorpay</button>
+        
+        <h3 style="color: var(--text-primary); margin: 20px 0;">Console Output:</h3>
+        <div class="console-output" id="consoleOutput"></div>
+    </div>
+
+    <script>
+        // Console logger
+        const logOutput = [];
+        const consoleDiv = document.getElementById('consoleOutput');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+            const text = `[${timestamp}] ${prefix} ${message}`;
+            logOutput.push(text);
+            consoleDiv.innerHTML = logOutput.join('<br>');
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function showStatus(message, type) {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            document.getElementById('statusDisplay').appendChild(div);
+        }
+
+        // Check configuration
+        function checkConfig() {
+            const configDiv = document.getElementById('configCheck');
+            
+            if (typeof CONFIG === 'undefined') {
+                configDiv.innerHTML = '<div class="status error">❌ CONFIG not loaded!</div>';
+                log('CONFIG object not found', 'error');
+                return false;
+            }
+            
+            const keyId = CONFIG.payment?.razorpay?.keyId;
+            const serverUrl = CONFIG.payment?.razorpay?.serverUrl;
+            
+            let html = '';
+            
+            if (keyId && keyId !== 'YOUR_RAZORPAY_KEY_ID') {
+                html += `<div class="status success">✅ Razorpay Key ID: ${keyId.substring(0, 15)}...</div>`;
+                log(`Razorpay Key configured: ${keyId}`, 'success');
+            } else {
+                html += '<div class="status error">❌ Razorpay Key ID not configured</div>';
+                log('Razorpay Key ID missing or not configured', 'error');
+            }
+            
+            if (serverUrl) {
+                html += `<div class="status success">✅ Server URL: ${serverUrl}</div>`;
+                log(`Server URL: ${serverUrl}`, 'success');
+            } else {
+                html += '<div class="status error">❌ Server URL not configured</div>';
+                log('Server URL missing', 'error');
+            }
+            
+            configDiv.innerHTML = html;
+            return keyId && serverUrl;
+        }
+
+        // Check server connection
+        async function checkServer() {
+            const serverDiv = document.getElementById('serverCheck');
+            const serverUrl = CONFIG.payment?.razorpay?.serverUrl || 'http://localhost:5000';
+            
+            try {
+                log(`Checking server at ${serverUrl}/health...`);
+                const response = await fetch(`${serverUrl}/health`);
+                const data = await response.json();
+                
+                if (data.status === 'OK') {
+                    serverDiv.innerHTML = `<div class="status success">✅ Server is running and responding</div>`;
+                    log('Server health check passed', 'success');
+                    log(`Server response: ${JSON.stringify(data)}`, 'info');
+                } else {
+                    serverDiv.innerHTML = `<div class="status error">❌ Server responded but status is ${data.status}</div>`;
+                    log(`Server responded with unexpected status: ${data.status}`, 'error');
+                }
+            } catch (error) {
+                serverDiv.innerHTML = `<div class="status error">❌ Cannot connect to server<br>Make sure server is running: npm start</div>`;
+                log(`Server connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test payment flow
+        async function testPayment() {
+            log('Starting payment test...', 'info');
+            
+            if (typeof Razorpay === 'undefined') {
+                showStatus('❌ Razorpay library not loaded!', 'error');
+                log('Razorpay library not found', 'error');
+                return;
+            }
+            
+            const serverUrl = CONFIG.payment?.razorpay?.serverUrl || 'http://localhost:5000';
+            const keyId = CONFIG.payment?.razorpay?.keyId;
+            
+            try {
+                log('Creating order on server...', 'info');
+                const orderResponse = await fetch(`${serverUrl}/create-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: 10,
+                        bookId: 999,
+                        bookTitle: 'Test Book'
+                    }),
+                });
+
+                if (!orderResponse.ok) {
+                    throw new Error(`Server responded with ${orderResponse.status}`);
+                }
+
+                const orderData = await orderResponse.json();
+                log(`Order created: ${orderData.id}`, 'success');
+                log(`Order amount: ₹${orderData.amount / 100}`, 'info');
+
+                // Open Razorpay
+                log('Opening Razorpay checkout...', 'info');
+                const options = {
+                    key: keyId,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    order_id: orderData.id,
+                    name: 'OpenReaders Test',
+                    description: 'Test Payment',
+                    handler: async function(response) {
+                        log('Payment completed!', 'success');
+                        log(`Payment ID: ${response.razorpay_payment_id}`, 'info');
+                        log(`Order ID: ${response.razorpay_order_id}`, 'info');
+                        
+                        // Verify payment
+                        try {
+                            log('Verifying payment...', 'info');
+                            const verifyResponse = await fetch(`${serverUrl}/verify-payment`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(response),
+                            });
+
+                            const verifyData = await verifyResponse.json();
+                            
+                            if (verifyData.success) {
+                                showStatus('✅ Payment Verified Successfully!', 'success');
+                                log('Payment verification successful!', 'success');
+                            } else {
+                                showStatus('❌ Payment verification failed', 'error');
+                                log('Payment verification failed', 'error');
+                            }
+                        } catch (error) {
+                            log(`Verification error: ${error.message}`, 'error');
+                        }
+                    },
+                    theme: {
+                        color: '#e94560'
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            log('Payment cancelled by user', 'info');
+                        }
+                    }
+                };
+                
+                const razorpay = new Razorpay(options);
+                razorpay.open();
+
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+                log(`Payment test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test direct razorpay (without server)
+        function testDirectRazorpay() {
+            log('Testing direct Razorpay (no server)...', 'info');
+            
+            if (typeof Razorpay === 'undefined') {
+                showStatus('❌ Razorpay library not loaded!', 'error');
+                log('Razorpay library not found', 'error');
+                return;
+            }
+            
+            const keyId = CONFIG.payment?.razorpay?.keyId;
+            
+            const options = {
+                key: keyId,
+                amount: 1000, // ₹10 in paise
+                currency: 'INR',
+                name: 'OpenReaders',
+                description: 'Direct Test Payment',
+                handler: function(response) {
+                    log('Payment response received!', 'success');
+                    log(`Payment ID: ${response.razorpay_payment_id}`, 'info');
+                    showStatus('✅ Direct Razorpay test successful!', 'success');
+                },
+                theme: {
+                    color: '#e94560'
+                },
+                modal: {
+                    ondismiss: function() {
+                        log('Direct payment cancelled', 'info');
+                    }
+                }
+            };
+            
+            const razorpay = new Razorpay(options);
+            razorpay.open();
+        }
+
+        // Run checks on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            log('Test page loaded', 'info');
+            checkConfig();
+            checkServer();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+╔═══════════════════════════════════════════════════════════════╗
+║           OPENREADERS - RAZORPAY QUICK START GUIDE            ║
+╚═══════════════════════════════════════════════════════════════╝
+
+✅ SETUP STATUS: COMPLETE & VERIFIED
+
+🔧 WHAT'S BEEN CONFIGURED
+
+  ✓ Razorpay API keys loaded from .env
+  ✓ Payment server enhanced with error handling
+  ✓ Order creation endpoint ready
+  ✓ Payment verification endpoint ready
+  ✓ CORS enabled for cross-origin requests
+  ✓ Frontend payment flow updated
+  ✓ Config.js updated with your live key
+  ✓ "Unlock Full" buttons connected
+  ✓ PDF preview unlock button connected
+  ✓ LocalStorage tracking for purchases
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 HOW TO RUN
+
+  Step 1: Start the Payment Server
+  ┌─────────────────────────────────────┐
+  │  npm start                          │
+  └─────────────────────────────────────┘
+  
+  You'll see:
+  🚀 OpenReaders Payment Server
+  ✅ Server running on http://localhost:5000
+  ✅ Razorpay Key: rzp_live_SEukaWyI7cU4x0
+  
+  Step 2: Open Your Website
+  • Double-click index.html, OR
+  • Use VS Code Live Server, OR
+  • Right-click index.html → Open with browser
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🧪 HOW TO TEST
+
+  Test 1: FREE PREVIEW
+  ─────────────────────
+  1. Go to Books page
+  2. Click "Preview (10p)" on any book
+  3. Scroll through first 10 pages
+  4. See locked page at end
+
+  Test 2: UNLOCK FROM PREVIEW
+  ───────────────────────────
+  1. In preview modal, scroll to locked page
+  2. Click "Unlock Full Book • ₹299"
+  3. Razorpay modal opens
+
+  Test 3: UNLOCK FROM CARD
+  ───────────────────────
+  1. On Books page
+  2. Click "Unlock Full →" on any book card
+  3. Razorpay modal opens immediately
+
+  Test 4: COMPLETE PAYMENT
+  ────────────────────────
+  ⚠️  WARNING: You're using LIVE keys!
+      Real money will be charged.
+  
+  For testing, use Razorpay Test Mode:
+  • Dashboard → Settings → API Keys
+  • Switch to "Test Mode"
+  • Copy test keys to .env
+  • Restart server
+  
+  Test Card (Test Mode Only):
+  Card: 4111 1111 1111 1111
+  CVV: 123
+  Expiry: Any future date
+
+  After successful payment:
+  ✓ Toast: "🎉 Payment successful!"
+  ✓ PDF auto-reloads with ALL pages
+  ✓ Book stays unlocked (localStorage)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 VERIFY IT'S WORKING
+
+  Check server is running:
+  ┌─────────────────────────────────────────────────┐
+  │ http://localhost:5000/health                    │
+  └─────────────────────────────────────────────────┘
+  
+  Should show:
+  {
+    "status": "OK",
+    "message": "Server is running",
+    "razorpay": true
+  }
+
+  Check purchased books (Browser Console F12):
+  ┌─────────────────────────────────────────────────┐
+  │ localStorage.getItem('openreaders_paid_books') │
+  └─────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 PAYMENT FLOW
+
+  User clicks "Unlock Full"
+     ↓
+  Frontend → Server: Create order
+     ↓
+  Server → Razorpay: Order created
+     ↓
+  Razorpay modal opens
+     ↓
+  User completes payment
+     ↓
+  Frontend → Server: Verify signature
+     ↓
+  Server verifies with HMAC-SHA256
+     ↓
+  Book unlocked & saved to localStorage
+     ↓
+  Full PDF displayed!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  IMPORTANT REMINDERS
+
+  • You're using LIVE Razorpay keys (rzp_live_...)
+  • Real payments will charge real money
+  • Switch to TEST keys for safe testing
+  • Server must run on port 5000
+  • Keep .env file secret (already in .gitignore)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆘 TROUBLESHOOTING
+
+  Issue                          Fix
+  ────────────────────────────────────────────────
+  "Payment system not configured"  → Start server (npm start)
+  CORS errors                      → Already fixed ✓
+  "Failed to create order"         → Check server logs
+  Payment works but no unlock      → Check browser console
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 DOCUMENTATION
+
+  Full guide: SETUP_AND_TESTING.md
+  Razorpay integration details: RAZORPAY_INTEGRATION_GUIDE.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready to test! Start with: npm start

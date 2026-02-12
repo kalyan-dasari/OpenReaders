@@ -246,10 +246,15 @@ let activePdfBookId = null;
 let pdfDocCache = null;
 
 async function openBookPDF(bookId) {
-    const book = await contentManager.getBookById(bookId);
-    if (!book) return;
-
-    activePdfBookId = bookId;
+    console.log('openBookPDF called with bookId:', bookId, typeof bookId);
+    const book = await contentManager.getBookById(parseInt(bookId));
+    if (!book) {
+        console.error('Book not found for ID:', bookId);
+        showToast('Book not found!', 'error');
+        return;
+    }
+    console.log('Opening PDF for book:', book.title);
+    activePdfBookId = parseInt(bookId);
 
     const modal = document.getElementById('pdfModal');
     const titleEl = document.getElementById('pdfModalTitle');
@@ -572,8 +577,14 @@ function shareStory(title) {
 // ========================================
 
 async function initiatePurchase(bookId) {
-    const book = await contentManager.getBookById(bookId);
-    if (!book) return;
+    console.log('initiatePurchase called with bookId:', bookId, typeof bookId);
+    const book = await contentManager.getBookById(parseInt(bookId));
+    if (!book) {
+        console.error('Book not found for ID:', bookId);
+        showToast('Book not found!', 'error');
+        return;
+    }
+    console.log('Book found:', book.title);
     
     // Check if Razorpay is available
     if (typeof Razorpay === 'undefined') {
@@ -585,7 +596,7 @@ async function initiatePurchase(bookId) {
     const paidBooks = getFromLocalStorage('paid_books') || {};
     if (paidBooks[bookId]) {
         showToast('You have already purchased this book! Opening it now...', 'success');
-        setTimeout(() => openBookReader(bookId), 500);
+        setTimeout(() => openBookPDF(bookId), 500);
         return;
     }
     
@@ -596,59 +607,115 @@ async function initiatePurchase(bookId) {
         console.error('Razorpay Key ID not configured in config.js');
         return;
     }
-    
-    // Initialize Razorpay payment
-    const options = {
-        key: razorpayKey,
-        amount: book.price * 100, // Amount in paise
-        currency: CONFIG.payment?.razorpay?.currency || 'INR',
-        name: CONFIG.site?.name || 'OpenReaders',
-        description: `Purchase: ${book.title}`,
-        image: book.cover || CONFIG.content?.defaultCover,
-        handler: async function(response) {
-            // Payment successful - record purchase with full details
-            const paidBooks = getFromLocalStorage('paid_books') || {};
-            paidBooks[bookId] = {
-                bookTitle: book.title,
+
+    const serverUrl = CONFIG.payment?.razorpay?.serverUrl || 'http://localhost:5000';
+
+    try {
+        // Step 1: Create order on server
+        showToast('Initializing payment...', 'info');
+        const orderResponse = await fetch(`${serverUrl}/create-order`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 amount: book.price,
-                currency: 'INR',
-                paymentId: response.razorpay_payment_id,
-                purchaseDate: new Date().toISOString(),
-                purchaseDateFormatted: new Date().toLocaleString('en-IN'),
-                status: 'success'
-            };
-            
-            // Save payment record
-            saveToLocalStorage('paid_books', paidBooks);
-            
-            // Log for debugging
-            console.log('Payment Success - Book ID:', bookId);
-            console.log('Payment Record:', paidBooks[bookId]);
-            
-            showToast('🎉 Payment successful! Unlocking full book...', 'success');
-            
-            // Wait a moment then show book PDF unlocked
-            setTimeout(() => {
-                closePdfModal();
-                setTimeout(() => openBookPDF(bookId), 300);
-            }, 500);
-        },
-        prefill: {
-            name: '',
-            email: '',
-            contact: ''
-        },
-        theme: {
-            color: CONFIG.payment?.razorpay?.theme || '#e94560'
-        },
-        modal: {
-            ondismiss: function() {
-                console.log('Payment cancelled');
-                showToast('Payment cancelled. Book not unlocked.', 'warning');
-            }
+                bookId: bookId,
+                bookTitle: book.title
+            }),
+        });
+
+        if (!orderResponse.ok) {
+            throw new Error('Failed to create order. Please ensure the server is running.');
         }
-    };
-    
-    const razorpay = new Razorpay(options);
-    razorpay.open();
+
+        const orderData = await orderResponse.json();
+        console.log('Order created:', orderData);
+
+        // Step 2: Initialize Razorpay payment
+        const options = {
+            key: razorpayKey,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            order_id: orderData.id,
+            name: CONFIG.site?.name || 'OpenReaders',
+            description: `Purchase: ${book.title}`,
+            image: book.cover || CONFIG.content?.defaultCover,
+            handler: async function(response) {
+                console.log('Payment response:', response);
+                
+                // Step 3: Verify payment on server
+                try {
+                    showToast('Verifying payment...', 'info');
+                    const verifyResponse = await fetch(`${serverUrl}/verify-payment`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature,
+                            bookId: bookId
+                        }),
+                    });
+
+                    const verifyData = await verifyResponse.json();
+
+                    if (verifyData.success) {
+                        // Payment verified - record purchase
+                        const paidBooks = getFromLocalStorage('paid_books') || {};
+                        paidBooks[bookId] = {
+                            bookTitle: book.title,
+                            amount: book.price,
+                            currency: 'INR',
+                            orderId: response.razorpay_order_id,
+                            paymentId: response.razorpay_payment_id,
+                            signature: response.razorpay_signature,
+                            purchaseDate: new Date().toISOString(),
+                            purchaseDateFormatted: new Date().toLocaleString('en-IN'),
+                            status: 'verified'
+                        };
+                        
+                        saveToLocalStorage('paid_books', paidBooks);
+                        console.log('✅ Payment verified - Book ID:', bookId);
+                        
+                        showToast('🎉 Payment successful! Unlocking full book...', 'success');
+                        
+                        // Reload PDF to show full book
+                        setTimeout(() => {
+                            closePdfModal();
+                            setTimeout(() => openBookPDF(bookId), 300);
+                        }, 500);
+                    } else {
+                        showToast('❌ Payment verification failed. Please contact support.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Verification error:', error);
+                    showToast('❌ Payment verification failed: ' + error.message, 'error');
+                }
+            },
+            prefill: {
+                name: '',
+                email: '',
+                contact: ''
+            },
+            theme: {
+                color: CONFIG.payment?.razorpay?.theme || '#e94560'
+            },
+            modal: {
+                ondismiss: function() {
+                    console.log('Payment cancelled by user');
+                    showToast('Payment cancelled. Book not unlocked.', 'warning');
+                }
+            }
+        };
+        
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+
+    } catch (error) {
+        console.error('Purchase initiation error:', error);
+        showToast('❌ Failed to initiate payment: ' + error.message, 'error');
+    }
 }

@@ -316,12 +316,16 @@ async function openBookPDF(bookId) {
             const fitScale = availableWidth / baseViewport.width;
             const scale = Math.min(1.5, fitScale);
             const viewport = page.getViewport({ scale });
+            const outputScale = window.devicePixelRatio || 1;
+            const scaledViewport = page.getViewport({ scale: scale * outputScale });
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+            canvas.width = scaledViewport.width;
+            canvas.height = scaledViewport.height;
+            canvas.style.width = `${viewport.width}px`;
+            canvas.style.height = `${viewport.height}px`;
 
-            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
 
             const pageWrap = document.createElement('div');
             pageWrap.className = 'pdf-page';

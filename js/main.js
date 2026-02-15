@@ -251,8 +251,6 @@ class Analytics {
 
 // Initialize reading progress bar on modal open
 document.addEventListener('DOMContentLoaded', () => {
-    initReadingProgressBar();
-    
     // Track initial page view
     Analytics.trackPageView(window.location.pathname);
 });

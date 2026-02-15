@@ -1040,7 +1040,7 @@ section:nth-child(odd) {
 
 @media (max-width: 768px) {
     .nav-menu {
-        display: none;
+        display: flex;
         position: absolute;
         top: 70px;
         left: 0;
@@ -1052,13 +1052,22 @@ section:nth-child(odd) {
         border-bottom: 0;
         width: 100%;
         z-index: 1100;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: max-height var(--transition-fast), opacity var(--transition-fast), transform var(--transition-fast);
     }
 
     .nav-menu.active {
-        display: flex;
+        max-height: 60vh;
         padding: 16px 20px 20px;
         border-bottom: 1px solid var(--border-color);
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
     }
 
     .hamburger {
@@ -1291,8 +1300,9 @@ section:nth-child(odd) {
 }
 
 .pdf-page canvas {
-    width: 100%;
+    width: auto;
     height: auto;
+    max-width: 100%;
 }
 
 .pdf-unlock-overlay {

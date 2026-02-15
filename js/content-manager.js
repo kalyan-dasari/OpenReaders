@@ -306,16 +306,9 @@ async function openBookPDF(bookId) {
         // Render pages - all pages if purchased, only free pages if not
         const pagesToRender = isPurchased ? pdf.numPages : Math.min(freePages, pdf.numPages);
 
-        const containerWidth = viewerContainer?.clientWidth || 900;
-        const containerPadding = 40;
-        const availableWidth = Math.max(containerWidth - containerPadding, 280);
-
         for (let p = 1; p <= pagesToRender; p++) {
             const page = await pdf.getPage(p);
-            const baseViewport = page.getViewport({ scale: 1 });
-            const fitScale = availableWidth / baseViewport.width;
-            const scale = Math.min(1.2, Math.max(0.6, fitScale));
-            const viewport = page.getViewport({ scale });
+            const viewport = page.getViewport({ scale: 1.2 });
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.width = viewport.width;

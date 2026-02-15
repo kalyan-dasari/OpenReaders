@@ -1088,7 +1088,7 @@ section:nth-child(odd) {
 @media (max-width: 768px) {
     .nav-menu {
         display: none;
-        position: fixed;
+        position: absolute;
         top: 70px;
         left: 0;
         right: 0;
@@ -1098,8 +1098,6 @@ section:nth-child(odd) {
         padding: 20px;
         border-bottom: 1px solid var(--border-color);
         width: 100%;
-        max-height: calc(100vh - 70px);
-        overflow-y: auto;
         z-index: 1100;
     }
 
@@ -1131,20 +1129,6 @@ section:nth-child(odd) {
         width: 95%;
         padding: 25px;
         max-height: 95vh;
-    }
-
-    .pdf-meta {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .pdf-viewer {
-        padding: 12px;
-        gap: 16px;
-    }
-
-    .pdf-viewer-container {
-        height: 65vh;
     }
 
     .story-modal-title {
@@ -1211,12 +1195,6 @@ section:nth-child(odd) {
         height: 60px;
     }
 
-    .nav-menu {
-        top: 60px;
-        max-height: calc(100vh - 60px);
-        padding: 16px;
-    }
-
     .hero {
         padding-top: 60px;
         min-height: 80vh;
@@ -1267,18 +1245,6 @@ section:nth-child(odd) {
         width: 100%;
         padding: 20px;
         border-radius: 0;
-    }
-
-    .pdf-modal-content {
-        max-width: none;
-    }
-
-    .pdf-viewer-container {
-        height: 60vh;
-    }
-
-    .pdf-unlock-inner {
-        width: 90%;
     }
 
     .story-modal-title {

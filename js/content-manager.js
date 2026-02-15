@@ -307,7 +307,7 @@ async function openBookPDF(bookId) {
         const pagesToRender = isPurchased ? pdf.numPages : Math.min(freePages, pdf.numPages);
 
         const containerWidth = viewerContainer?.clientWidth || 900;
-        const containerPadding = 40;
+        const containerPadding = 16;
         const availableWidth = Math.max(containerWidth - containerPadding, 280);
 
         for (let p = 1; p <= pagesToRender; p++) {
@@ -316,7 +316,7 @@ async function openBookPDF(bookId) {
             const fitScale = availableWidth / baseViewport.width;
             const scale = Math.min(1.5, fitScale);
             const viewport = page.getViewport({ scale });
-            const outputScale = window.devicePixelRatio || 1;
+            const outputScale = Math.min(2, window.devicePixelRatio || 1);
             const scaledViewport = page.getViewport({ scale: scale * outputScale });
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');

@@ -47,10 +47,12 @@ function initializeNavigation() {
         hamburger?.setAttribute('aria-expanded', String(isOpen));
 
         if (navMenu && isMobile()) {
+            navMenu.style.display = isOpen ? 'flex' : 'none';
             navMenu.style.maxHeight = isOpen ? '60vh' : '0px';
             navMenu.style.opacity = isOpen ? '1' : '0';
             navMenu.style.pointerEvents = isOpen ? 'auto' : 'none';
         } else if (navMenu) {
+            navMenu.style.display = '';
             navMenu.style.maxHeight = '';
             navMenu.style.opacity = '';
             navMenu.style.pointerEvents = '';

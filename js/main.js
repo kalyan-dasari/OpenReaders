@@ -40,21 +40,41 @@ function initializeNavigation() {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+    const applyMenuState = (isOpen) => {
+        hamburger?.classList.toggle('active', isOpen);
+        navMenu?.classList.toggle('active', isOpen);
+        hamburger?.setAttribute('aria-expanded', String(isOpen));
+
+        if (navMenu && isMobile()) {
+            navMenu.style.maxHeight = isOpen ? '60vh' : '0px';
+            navMenu.style.opacity = isOpen ? '1' : '0';
+            navMenu.style.pointerEvents = isOpen ? 'auto' : 'none';
+        } else if (navMenu) {
+            navMenu.style.maxHeight = '';
+            navMenu.style.opacity = '';
+            navMenu.style.pointerEvents = '';
+        }
+    };
     
     // Hamburger menu toggle
-    if (hamburger) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
+    if (hamburger && navMenu) {
+        if (!navMenu.id) navMenu.id = 'primary-nav';
+        hamburger.setAttribute('aria-controls', navMenu.id);
+        hamburger.setAttribute('aria-expanded', 'false');
+
+        hamburger.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isOpen = navMenu.classList.contains('active');
+            applyMenuState(!isOpen);
         });
     }
     
     // Close menu when link is clicked
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-            
+            applyMenuState(false);
+
             // Set active state
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -67,8 +87,13 @@ function initializeNavigation() {
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.nav-container')) {
-            hamburger?.classList.remove('active');
-            navMenu?.classList.remove('active');
+            applyMenuState(false);
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (!isMobile()) {
+            applyMenuState(false);
         }
     });
 }
